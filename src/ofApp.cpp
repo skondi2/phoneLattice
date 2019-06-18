@@ -21,31 +21,42 @@ void ofApp::draw(){
     int circleSpacing = 120;
     int radius = 45;
     int startOffset = 30;
+    int arrowLength = 23;
     
     for (int i = 0; i < ofApp::letters.size(); i++) {
         
-        // Draw red circle
-        ofSetColor(255, 0, 0);
+        // Draw circle
+        ofNoFill();
         ofSetCircleResolution(100);
         ofDrawCircle((radius + i * circleSpacing) + startOffset, 200, 45); // 45 radius is good size for a letter
         
         ofSetColor(0, 0, 0);
         
         // Draw starting arrow node
-        ofVec3f arrowTailPoint (0, 200, 0);
-        ofVec3f arrowHeadPoint ( startOffset, 200, 0);
-        ofDrawArrow(arrowTailPoint, arrowHeadPoint, 4);
+        ofVec3f startArrowTailPoint (0, 200, 0);
+        ofVec3f startArrowHeadPoint ( startOffset, 200, 0);
+        ofDrawArrow(startArrowTailPoint, startArrowHeadPoint, 4);
         
         
         // Draw node number inside circle
         ofDrawBitmapString(i + 1, (radius + i * circleSpacing) + startOffset , 200);
         
-        if (i != ofApp::letters.size() - 1) {
-            // Draw arrow
-            ofVec3f arrowTailPoint ( ((radius + i * circleSpacing) + radius) + startOffset, 200, 0);
-            ofVec3f arrowHeadPoint ( ((radius + i * circleSpacing) + radius) + circleSpacing + startOffset, 200, 0);
-            ofDrawArrow(arrowTailPoint, arrowHeadPoint, 4);
-        }
+        // Draw arrow
+        ofVec3f arrowTailPoint ( ((radius + i * circleSpacing) + radius) + startOffset, 200, 0);
+        ofVec3f arrowHeadPoint ( ((radius + i * circleSpacing) + radius) + startOffset + arrowLength, 200, 0);
+        ofDrawArrow(arrowTailPoint, arrowHeadPoint, 4);
+            
+        int middleOfArrow = (( ((radius + i * circleSpacing) + radius) + startOffset) + (((radius + i * circleSpacing) + radius) + startOffset + arrowLength)) / 2;
+            
+        // Draw letter above arrow
+        ofDrawBitmapString(ofApp::letters.at(i), middleOfArrow , 190);
+        
+        // Draw ending circle
+        ofNoFill();
+        ofSetCircleResolution(100);
+        ofDrawCircle((radius + ofApp::letters.size() * circleSpacing) + startOffset, 200, 45);
+        ofDrawCircle((radius + ofApp::letters.size() * circleSpacing) + startOffset, 200, 50);
+        ofDrawBitmapString(ofApp::letters.size() + 1, (radius + ofApp::letters.size() * circleSpacing) + startOffset , 200);
         
     }
 }
